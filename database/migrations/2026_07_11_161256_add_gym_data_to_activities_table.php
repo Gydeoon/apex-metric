@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('activities', function (Blueprint $table) {
+            // Kolom JSON untuk menyimpan banyak gerakan sekaligus
+            $table->json('gym_data')->nullable()->after('distance_km');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('activities', function (Blueprint $table) {
+            $table->dropColumn('gym_data');
+        });
+    }
+};
