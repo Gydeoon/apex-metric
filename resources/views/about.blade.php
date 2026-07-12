@@ -12,14 +12,14 @@
 </head>
 <body class="bg-[#0a0a0a] text-zinc-100 antialiased min-h-screen flex flex-col font-sans">
 
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between border-b border-zinc-900 z-50">
+    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between border-b border-zinc-900 relative z-50">
         <div class="flex items-center space-x-2">
-            <a href="{{ route('dashboard') }}" class="text-xs font-black tracking-[0.4em] uppercase text-white">Apex<span class="text-rose-600">Metric</span></a>
+            <a href="{{ Auth::check() ? route('dashboard') : route('home') }}" class="text-xs font-black tracking-[0.4em] uppercase text-white">Apex<span class="text-rose-600">Metric</span></a>
         </div>
-        <a href="{{ route('dashboard') }}" class="text-xs uppercase tracking-widest font-semibold text-zinc-500 hover:text-white transition-all">&larr; Back Home</a>
+        <a href="{{ Auth::check() ? route('dashboard') : route('home') }}" class="text-xs uppercase tracking-widest font-semibold text-zinc-500 hover:text-white transition-all">&larr; Back Home</a>
     </header>
 
-    <main class="py-20 flex-grow max-w-5xl w-full mx-auto px-6 space-y-16">
+    <main class="py-20 flex-grow max-w-5xl w-full mx-auto px-6 space-y-16 relative z-10">
         
         <!-- SECTION 01: THE PLATFORM -->
         <div class="space-y-6 max-w-3xl">

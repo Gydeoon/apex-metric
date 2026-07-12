@@ -9,7 +9,7 @@ use App\Models\User;
 // Halaman utama / Marketing Landing Page (Akses Publik)
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 // Halaman About & Visi Misi (Akses Publik)
 Route::get('/about', function () {
