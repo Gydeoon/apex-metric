@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Leaderboard — ApexMetric</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .shape-triangle { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 10px solid currentColor; display: inline-block; }
@@ -62,7 +62,9 @@
                                             <span class="shape-{{ $pTier['shape'] }} text-current"></span>
                                         </div>
                                         <div>
-                                            <span>{{ $player->name }}</span>
+                                            <a href="{{ route('users.profile', $player->id) }}" class="text-white hover:text-rose-400 font-semibold transition-all duration-300 hover:underline">
+                                                {{ $player->name }}
+                                            </a>
                                             <span class="text-[9px] text-zinc-500 font-mono block uppercase tracking-wider">{{ $pStats['rank_title'] }} ({{ $pStats['rank'] }})</span>
                                         </div>
                                     </div>

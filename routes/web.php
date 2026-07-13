@@ -60,6 +60,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('leaderboard', compact('leaderboard'));
     })->name('leaderboard');
 
+    // VIEW DETAIL PROFIL ATLET LAIN (Eksklusif Premium)
+    Route::get('/users/{user}', function (User $user) {
+        /** @var \App\Models\User $currentUser */
+        $currentUser = Auth::user();
+
+        if (!$currentUser->is_premium) {
+            return redirect()->route('dashboard')->withErrors(['premium_error' => 'Fitur mengintip profil atlet lain eksklusif untuk member Premium.']);
+        }
+
+        // Mengambil maksimal 15 aktivitas terbaru milik pengguna tersebut untuk dianalisis
+        $activities = $user->activities()->latest()->take(15)->get();
+
+        return view('user-profile', compact('user', 'activities'));
+    })->name('users.profile');
+
     // Profile routes bawaan Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
