@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL; // 1. WAJIB TAMBAHKAN LINE INI
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // 2. PAKSA SEMUA URL, FORM ACTION, DAN REDIRECT MENGGUNAKAN HTTPS DI PRODUCTION
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
