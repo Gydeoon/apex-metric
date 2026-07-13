@@ -21,10 +21,16 @@
 <body class="bg-[#0a0a0a] text-zinc-100 antialiased min-h-screen flex flex-col font-sans">
     
     @php
-        $stats = $user->fitness_stats;
-        $staminaPct = min(($stats['stamina'] / 15000) * 100, 100);
-        $powerPct = min(($stats['power'] / 15000) * 100, 100);
-        $intelligencePct = min(($stats['intelligence'] / 5000) * 100, 100);
+        // Mengambil detail tier secara aman dengan proteksi fallback data
+        $tTotal = $user->getTierDetails($user->total_pts);
+        $tStamina = $user->getTierDetails($user->stamina_pts);
+        $tPower = $user->getTierDetails($user->power_pts);
+        $tIntel = $user->getTierDetails($user->intelligence_pts);
+
+        // Kalkulasi persentase bar progress latihan
+        $staminaPct = min(($user->stamina_pts / 15000) * 100, 100);
+        $powerPct = min(($user->power_pts / 15000) * 100, 100);
+        $intelligencePct = min(($user->intelligence_pts / 5000) * 100, 100);
     @endphp
 
     <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between border-b border-zinc-900 z-50">
@@ -48,13 +54,13 @@
                 </div>
 
                 <div class="my-6 flex items-baseline space-x-4">
-                    <span class="text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b {{ $stats['rank_color'] }} drop-shadow-md">
-                        {{ $stats['rank'] }}
+                    <span class="text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b {{ $tTotal['color'] ?? 'from-zinc-500 to-zinc-700' }} drop-shadow-md">
+                        {{ $tTotal['code'] ?? 'D' }}
                     </span>
                     <div class="text-zinc-400 text-xs tracking-wider flex flex-col">
                         <span class="text-zinc-500 text-[9px] uppercase font-mono tracking-widest">Division Rank</span>
-                        <span class="text-white font-bold text-sm tracking-normal mt-0.5">{{ $stats['rank_title'] }}</span>
-                        <p class="text-zinc-400 font-medium font-mono text-[11px] mt-1">{{ number_format($stats['total']) }} TOTAL PTS</p>
+                        <span class="text-white font-bold text-sm tracking-normal mt-0.5">{{ $tTotal['title'] ?? 'Rookie' }}</span>
+                        <p class="text-zinc-400 font-medium font-mono text-[11px] mt-1">{{ number_format($user->total_pts) }} TOTAL PTS</p>
                     </div>
                 </div>
 
@@ -62,9 +68,9 @@
                     <div>
                         <div class="flex justify-between text-xs mb-1 font-mono">
                             <span class="text-zinc-400">STAMINA & SPEED</span>
-                            <div class="flex items-center gap-1.5 {{ $stats['color_stamina'] }} text-[10px] font-bold">
-                                <span class="shape-{{ $stats['badge_stamina'] }} text-current"></span>
-                                <span>{{ $stats['rank_stamina'] }}</span>
+                            <div class="flex items-center gap-1.5 {{ $tStamina['text_color'] ?? 'text-blue-400' }} text-[10px] font-bold">
+                                <span class="shape-{{ $tStamina['shape'] ?? 'triangle' }} text-current"></span>
+                                <span>{{ $tStamina['code'] ?? 'D' }}</span>
                             </div>
                         </div>
                         <div class="w-full bg-zinc-900 h-[3px] rounded-full overflow-hidden">
@@ -75,9 +81,9 @@
                     <div>
                         <div class="flex justify-between text-xs mb-1 font-mono">
                             <span class="text-zinc-400">POWER & STRENGTH</span>
-                            <div class="flex items-center gap-1.5 {{ $stats['color_power'] }} text-[10px] font-bold">
-                                <span class="shape-{{ $stats['badge_power'] }} text-current"></span>
-                                <span>{{ $stats['rank_power'] }}</span>
+                            <div class="flex items-center gap-1.5 {{ $tPower['text_color'] ?? 'text-rose-400' }} text-[10px] font-bold">
+                                <span class="shape-{{ $tPower['shape'] ?? 'triangle' }} text-current"></span>
+                                <span>{{ $tPower['code'] ?? 'D' }}</span>
                             </div>
                         </div>
                         <div class="w-full bg-zinc-900 h-[3px] rounded-full overflow-hidden">
@@ -88,9 +94,9 @@
                     <div>
                         <div class="flex justify-between text-xs mb-1 font-mono">
                             <span class="text-zinc-400">RECOVERY INTEL</span>
-                            <div class="flex items-center gap-1.5 {{ $stats['color_intelligence'] }} text-[10px] font-bold">
-                                <span class="shape-{{ $stats['badge_intelligence'] }} text-current"></span>
-                                <span>{{ $stats['rank_intelligence'] }}</span>
+                            <div class="flex items-center gap-1.5 {{ $tIntel['text_color'] ?? 'text-amber-400' }} text-[10px] font-bold">
+                                <span class="shape-{{ $tIntel['shape'] ?? 'triangle' }} text-current"></span>
+                                <span>{{ $tIntel['code'] ?? 'D' }}</span>
                             </div>
                         </div>
                         <div class="w-full bg-zinc-900 h-[3px] rounded-full overflow-hidden">
